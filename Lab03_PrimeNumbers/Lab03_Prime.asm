@@ -83,8 +83,8 @@ Loop1:
 Loop2:
 ; ============ Add your code below ==============================
 ; solution
-								; Compare i with m (i > n / 2?)
-								; If i > m, the number is prime (branch to True)
+		CMP     R6, R5			; Compare i with m (i > n / 2?)
+		BHI     True			; If i > m, the number is prime (branch to True)
                                 ; Caution: are you checking signed or unsigned numbers?
 
 ; ============= End of your code ================================
@@ -96,15 +96,17 @@ Loop2:
 
 ; ============ Add your code below ==============================
 ; solution
+        BEQ     False           ; If the 'n' value and the i*quotient give no remainder, branch to composite
+        ADD     R6, #1          ; Add one to the counter of 'i'
+        B       Loop2           ; Continue through the loop until it is either found to be a composite or not
 
+True    MOV     R10, #1         ; Because 'STR' can't handle immediates, store the value '1' in a free register
+        STR     R10, [R2], #1   ; Stores a '1' into the 'Nums' array pointer then goes to the next place in the array.
+        B       Loop1           ; Moves back to 'Loop1' after storing the number
 
-
-
-True
-
-
-
-False
+False   MOV     R11, #-1        ; Same thing as above, but this time stores '-1' into a free reigster
+        STR     R11, [R2], #1   ; Stores '-1' into the 'Nums' array pointer then goes to the next place in the array
+        B       Loop1           ; Branch back to 'Loop1'+
 
 
 
