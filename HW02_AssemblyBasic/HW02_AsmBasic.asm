@@ -39,7 +39,32 @@
         .thumb
         .global  main       ; make the symbol visible to the linker.
 
+        SIDEMIN  .word 212
+        BLOCKED  .word 1
+        STRAIGTH .word 2
+
+less: .asmfunc
+        MOV R0, R2
+        BX LR
+    .endasmfunc
+
 main:  .asmfunc             ; begin assembly main function
+
+
+
+        LDR R1, SIDEMIN    ; R1 = SIDEMIN
+        LDR R2, BLOCKED    ; R2 = BLOCKED
+        LDR R3, STRAIGHT   ; R3 = STRAIGHT
+; add your code here
+        CMP R0, R1
+        BLT less
+        MOV R0, R3
+
+
+; do not modify below
+    .endasmfunc
+
+
 
         ; Observe the R0-R8 values
         MOV     R0, #0x1212     ; R0 <= 0x1212

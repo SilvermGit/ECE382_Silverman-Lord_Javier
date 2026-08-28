@@ -404,6 +404,11 @@ void Nokia5110_OutString(const char* ptr){
 
     // You write this as part of Lab 5
     // You must use Nokia5110_OutChar
+    int i = 0;
+    while (ptr[i] != '\0') {
+          Nokia5110_OutChar(ptr[i]);
+          i++;
+    }
 
 }
 
