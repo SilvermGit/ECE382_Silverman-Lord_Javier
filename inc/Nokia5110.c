@@ -406,8 +406,7 @@ void Nokia5110_OutString(const char* ptr){
     // You must use Nokia5110_OutChar
     int i = 0;
     while (ptr[i] != '\0') {
-          Nokia5110_OutChar(ptr[i]);
-          i++;
+          Nokia5110_OutChar(ptr[i++]);
     }
 
 }
@@ -447,9 +446,19 @@ static int Nokia_Num2String(uint32_t n) {
 
 void Nokia5110_OutUDec(uint32_t n, int min_length){
     // Write this as part of Lab 5
-
     // Convert the number into a reversed string.
-    int count = Nokia_Num2String(n);
+    int count = Nokia_Num2String(n); // Changing the number into string values stored in count
+    if (min_length > count) { // Compare' min_length' to 'count'
+        int i = 0; // Initialize while loop
+        while(i < (min_length - count)) { // If count is smaller, add extra spaces beforehand
+            Nokia5110_OutChar(' '); // Extra spaces being added
+            i++; // Increase through loop
+        }
+    }
+    for(int i = (count-1); i >= 0; i--) { // Print in reverse order starting at one before the NULL character
+        Nokia5110_OutChar(Buffer[i]); // Print each individual character to the LCD
+    }
+
 }
 
 
@@ -460,9 +469,27 @@ void Nokia5110_OutSDec(int32_t n, int min_length){
     // Ensure the magnitude of -2147483648(0x80000000) is 2147483648(0x80000000).
     // You are not allowed to use the built-in abs() function.
     uint32_t x = 0;
+    x = (n<0)?(-n):(n); // Check if n<0. If so, x = -n, or just n if it is not negative this works because x is unsigned
+    // Convert the number into a reversed string
+    int count = Nokia_Num2String(x); // Find how many numbers are in the string
+    if (min_length > count) { // Compare the minimum length to the count
+            int i = 0;  // Initialize while loop
+            while(i < (min_length - (count+1))) { // If' min_lengt'h is larger, add spaces up until 1 less space than required, because we are automatically adding a negative sign or an extra space after this loop
+                Nokia5110_OutChar(' '); // Add those spaces
+                i++; // Increase through loop
+            }
+        }
+    if (n < 0) { // Compare 'n' to see if it is negative or not
+        Nokia5110_OutChar('-'); // If it is, add the negative sign
+    }
+    else {
+        Nokia5110_OutChar(' '); // If it isn't add an extra space
+    }
+    for(int i = (count-1); i >= 0; i--) { // Print the string in reverse order from one before the NULL character
+        Nokia5110_OutChar(Buffer[i]); // Show numbers found in the 'Buffer' array on the LCD
+    }
 
-    // Convert the number into a reversed string.
-    int count = Nokia_Num2String(x);
+
 
 }
 

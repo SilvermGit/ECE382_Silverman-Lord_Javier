@@ -209,8 +209,8 @@ void Program5_3(void){
 
 void main(void){
     //Program5_1();
-    Program5_2();
-    //Program5_3();
+    //Program5_2();
+    Program5_3();
 
 }
 
