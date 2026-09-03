@@ -138,6 +138,14 @@ void Program8_3(void) {
     uint8_t windows;    // Stores the state of the window switches
     uint8_t bump = 0x00;// Variable to hold bump switch readings
 
+    Nokia5110_Init();
+    uint8_t  contrast = 0xB1;
+    Nokia5110_SetContrast(contrast);
+    Nokia5110_Clear();
+    Nokia5110_OutString("Bump: ");
+    Nokia5110_SetCursor2(2, 1); Nokia5110_OutString("Wind: ");
+    Nokia5110_SetCursor2(3, 1); Nokia5110_OutString("Mask: ");
+
     while(1) {
 
         //===== write this as part of Lab 8 ======
@@ -147,18 +155,39 @@ void Program8_3(void) {
         Clock_Delay1ms(100);
 
         // Read the state of the bump switches
-        bump = 0;       // update this line
-
+        bump = Bump_Read();       // update this line
         // Read the alarm activation switch (right-most bump switch, BUMP1)
         // If activated (armed), isArmed is set to true, otherwise false
-        isArmed = 0;    // update this line. Do not use hard-coded numbers.
+        if ((bump & BUMP1) == BUMP1) {
+            isArmed = true;
+        }
+        else {
+            isArmed = false;
+        }
+        // update this line. Do not use hard-coded numbers.
 
         // Read the window switches (BUMP5 and BUMP6)
         // windows is set based on the state of the two left bump switches
-        windows = 0;    // update this line. Do not use hard-coded numbers.
+        windows = (BUMP5 | BUMP6);
+        unsigned int mask = windows & bump;
+        Nokia5110_SetCursor2(1, 7); Nokia5110_OutU8Hex(bump);
+        Nokia5110_SetCursor2(2, 7); Nokia5110_OutU8Hex(windows);
+        Nokia5110_SetCursor2(3, 7); Nokia5110_OutU8Hex(mask);
+        // update this line. Do not use hard-coded numbers.
 
         // If the alarm is armed and the windows (BUMP5 and BUMP6) are not secure, toggle the LED
+        if (isArmed) {
+            if (mask == windows) {
+                LED_Off();
+            }
+            else {
+                LED_Toggle();
+            }
+        }
         // Otherwise, turn the LED off
+        else {
+            LED_Off();
+        }
         // Do not use hard-coded numbers.
 
 
@@ -167,7 +196,7 @@ void Program8_3(void) {
 
 
 void main(void){
-    Program8_1();
+    //Program8_1();
     // Program8_2();
-    // Program8_3();
+    Program8_3();
 }
