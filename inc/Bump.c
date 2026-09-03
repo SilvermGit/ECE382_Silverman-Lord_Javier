@@ -61,7 +61,11 @@ void Bump_Init(void){
     // 2) make P4.7-P4.5, P4.3, P4.2, and P4.0 in
     // 3) enable pull resistors on P4.7-P4.5, P4.3, P4.2, and P4.0
     //    P4.7-P4.5, P4.3, P4.2, and P4.0 are pull-up
-  
+    P4->SEL0 &= ~0xED;
+    P4->SEL1 &= ~0xED;
+    P4->DIR &= ~0xED;
+    P4->REN |= 0xED;
+    P4->OUT |= 0xED;
 }
 
 
@@ -76,8 +80,17 @@ void Bump_Init(void){
 uint8_t Bump_Read(void) {
     // write this as part of Lab 8
     // 1)read the sensors (which are active low) and convert to active high
-
+    unsigned int Temp = P4->IN; // Set Temp to the input
+    Temp = ~Temp;  // Invert the given bits
     // 2. Select, shift, combine, and output
-    return 0; // replace this line
+    unsigned int Mask1 = Temp & 0x000000E0; // Change all bits to 0 besides the most left set
+    Mask1 = Mask1 >> 2; // Shift over 2 to account for the two don't cares
+    unsigned int Mask2 = Temp & 0x0000000C; // Change all bits to 0 besides the middle 2
+    Mask2 = Mask2 >> 1; // Shift over 1 to account for the don't care
+    unsigned int Mask3 = Temp & 0x00000001; // Mask the last bit
+    unsigned int Final = 0x00000000 | Mask1; // Or the ladt bit
+    Final = Final | Mask2; // Or the middle two
+    Final = Final | Mask3; // Or the last three
+    return Final; // replace this line
 }
 
