@@ -96,17 +96,17 @@ void Flash(void) {
     static uint16_t Time_1ms = 0;
 
     // Use Time_1ms to keep the LED light RED for 5 ms and BLUE for 5 ms.
-    if (Time_1ms < 5) {
-        LaunchPad_RGB(RED);
+    if (Time_1ms < 5) { // Have red light for 5ms
+        LaunchPad_RGB(RED); // Turn on red light
     }
-    if (Time_1ms >= 5) {
-        LaunchPad_RGB(BLUE);
+    if (Time_1ms >= 5) { // Have blue light on for 5ms
+        LaunchPad_RGB(BLUE); // Turn on blue light
     }
     // increment Time_1ms every time this function is executed.
     // if it increments to 10, roll over to 0.
-    Time_1ms++;
-    if (Time_1ms == 10) {
-        Time_1ms=0;
+    Time_1ms++; // Increment timer
+    if (Time_1ms >= 10) { //Check to see if it is 10
+        Time_1ms=0; // Reset timer to 0
     }
 }
 
