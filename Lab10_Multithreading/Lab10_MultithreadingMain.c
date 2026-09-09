@@ -96,13 +96,18 @@ void Flash(void) {
     static uint16_t Time_1ms = 0;
 
     // Use Time_1ms to keep the LED light RED for 5 ms and BLUE for 5 ms.
-
-
-
-
+    if (Time_1ms < 5) {
+        LaunchPad_RGB(RED);
+    }
+    if (Time_1ms >= 5) {
+        LaunchPad_RGB(BLUE);
+    }
     // increment Time_1ms every time this function is executed.
     // if it increments to 10, roll over to 0.
-
+    Time_1ms++;
+    if (Time_1ms == 10) {
+        Time_1ms=0;
+    }
 }
 
 
@@ -224,8 +229,8 @@ void Program10_3(void){
 
 void main(void) {
 
-    // Program10_1();
-    // Program10_2();
-    Program10_3();
+    //Program10_1();
+    Program10_2();
+    //Program10_3();
 
 }
