@@ -207,10 +207,12 @@ void Program10_3(void){
     LaunchPad_RGB(MAGENTA);
     uint16_t count;
 
-    //EnableInterrupts();     // uncomment for background thread
+    EnableInterrupts();     // uncomment for background thread
 
     for (int i = 0; i < 1000; i++) {
+        int32_t sr = StartCritical(); // Initialize the atomic variable 'count'
         count = Increment();        // uncomment for foreground thread
+        EndCritical(sr); // Turn off the atomic variable 'count'
         Clock_Delay1us(1000);
     }
 
@@ -230,7 +232,7 @@ void Program10_3(void){
 void main(void) {
 
     //Program10_1();
-    Program10_2();
-    //Program10_3();
+    // Program10_2();
+    Program10_3();
 
 }
