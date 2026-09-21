@@ -210,9 +210,9 @@ void Program10_3(void){
     EnableInterrupts();     // uncomment for background thread
 
     for (int i = 0; i < 1000; i++) {
-        int32_t sr = StartCritical(); // Initialize the atomic variable 'count'
+        //int32_t sr = StartCritical(); // Initialize the atomic variable 'count'
         count = Increment();        // uncomment for foreground thread
-        EndCritical(sr); // Turn off the atomic variable 'count'
+        //EndCritical(sr); // Turn off the atomic variable 'count'
         Clock_Delay1us(1000);
     }
 

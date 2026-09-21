@@ -67,9 +67,8 @@ void SPIA3_Init(void) {
 
     // write this as part of Lab 11
 
-    /*
     // hold the eUSCI module in reset mode
-    EUSCI_A3->CTLW0
+    EUSCI_A3->CTLW0 = 0x0001;
 
     // configure UCA3CTLW0 for:
     // bit15      UCCKPH = 1;   data shifts in on first edge, out on following edge
@@ -83,26 +82,25 @@ void SPIA3_Init(void) {
     // bits5-2                  reserved
     // bit1       UCSTEM = 1;   UCSTE pin enables slave
     // bit0       UCSWRST = 1;  reset enabled
-    EUSCI_A3->CTLW0
+    EUSCI_A3->CTLW0 = 0xADC3;
 
     // set the baud rate for the eUSCI which gets its clock from SMCLK
     // Clock_Init48MHz() from ClockSystem.c sets SMCLK = HFXTCLK/4 = 12 MHz
     // if the SMCLK is set to 12 MHz, divide by 3 for 4 MHz baud clock
-    EUSCI_A3->BRW
+    EUSCI_A3->BRW = 3;
 
     // modulation is not used in SPI mode, so clear UCA3MCTLW
-    EUSCI_A3->MCTLW
+    EUSCI_A3->MCTLW = 0;
     
     // configure P9.7, P9.5, and P9.4 as primary module function
-    P9->SEL0
-    P9->SEL1
+    P9->SEL0 |= 0xB0;
+    P9->SEL1 &= ~0xB0;
 
     // enable eUSCI module
-    EUSCI_A3->CTLW0
+    EUSCI_A3->CTLW0 &= ~0x0001;
 
     // disable interrupts
-    EUSCI_A3->IE
-    */
+    EUSCI_A3->IE &= ~0x0003;
 }
 
 //********SPIA3_Wait4Tx*****************
@@ -112,7 +110,7 @@ void SPIA3_Init(void) {
 void SPIA3_Wait4Tx(void) {
 
     // Wait for transmitter to be empty (UCTXIFG)
-
+    while((EUSCI_A3->IFG & 0x0002) == 0);
 }
 
 //********SPIA3_Wait4TxRxReady*****************
@@ -137,7 +135,7 @@ void SPIA3_Wait4TxRxReady(void) {
 void SPIA3_WriteTxBuffer(char data) {
 
     // Send data using TXBUF
-
+    EUSCI_A3->TXBUF = data;
 }
 
 
@@ -150,7 +148,8 @@ void SPIA3_WriteTxBuffer(char data) {
 void SPIA3_OutChar(char data) {
     // 1) Wait for transmitter to be empty (let previous frame finish)
     // 2) Write data to TXBUF, starts SPI
-
+    while((EUSCI_A3->IFG&0x0002) == 0);
+    EUSCI_A3->TXBUF = data;
 }
 
 
@@ -161,5 +160,7 @@ void SPIA3_OutChar(char data) {
 void SPIA3_OutString(const char* ptr){
 
     // you write this as part of Lab 11
-
+    while (*ptr != 0) {
+        SPIA3_OutChar(*ptr++);
+    }
 }
