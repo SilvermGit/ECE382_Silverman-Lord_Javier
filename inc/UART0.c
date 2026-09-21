@@ -128,8 +128,8 @@ char UART0_InChar(void) {
 // Output: none
 void UART0_OutChar(char data){
     // you write this as part of Lab 11
-    while((EUSCI_A0->IFG&0x02) == 0);
-    EUSCI_A0->TXBUF = data;
+    while((EUSCI_A0->IFG&0x02) == 0); // Check to see if IFG is writeable, if not, wait
+    EUSCI_A0->TXBUF = data; // Write once IFG is 1
 
 }
 
@@ -142,8 +142,8 @@ void UART0_OutString(const char* ptr){
     // you write this as part of Lab 11
     // You must use UART0_OutChar
     int i = 0;
-    while (ptr[i] != 0) {
-        UART0_OutChar(ptr[i++]);
+    while (ptr[i] != 0) { // While ptr is not NULL, keep writing data
+        UART0_OutChar(ptr[i++]); // Call OutChar
     }
 }
 

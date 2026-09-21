@@ -135,7 +135,7 @@ void SPIA3_Wait4TxRxReady(void) {
 void SPIA3_WriteTxBuffer(char data) {
 
     // Send data using TXBUF
-    EUSCI_A3->TXBUF = data;
+    EUSCI_A3->TXBUF = data; // Send the actual data
 }
 
 
@@ -148,8 +148,8 @@ void SPIA3_WriteTxBuffer(char data) {
 void SPIA3_OutChar(char data) {
     // 1) Wait for transmitter to be empty (let previous frame finish)
     // 2) Write data to TXBUF, starts SPI
-    while((EUSCI_A3->IFG&0x0002) == 0);
-    EUSCI_A3->TXBUF = data;
+    while((EUSCI_A3->IFG&0x0002) == 0); // Checks to see if IFG is writeable or not
+    EUSCI_A3->TXBUF = data; // Once it is writeable, send data
 }
 
 
@@ -160,7 +160,7 @@ void SPIA3_OutChar(char data) {
 void SPIA3_OutString(const char* ptr){
 
     // you write this as part of Lab 11
-    while (*ptr != 0) {
-        SPIA3_OutChar(*ptr++);
+    while (*ptr != 0) { //While the character is not NULL, keep sending data
+        SPIA3_OutChar(*ptr++); //Increment after each character
     }
 }
