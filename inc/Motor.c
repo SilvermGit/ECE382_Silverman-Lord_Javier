@@ -84,7 +84,7 @@ void Motor_Init(void){
     P3->SEL1 &= ~0xC0;
     P3->DIR |= 0xC0;
     // initialize PWM with 0% duty cycle
-    PWM_Init34(15000);- // Put in duty cycle and initialize PWM
+    PWM_Init34(15000); // Put in duty cycle and initialize PWM
 }
 
 
