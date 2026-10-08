@@ -169,10 +169,11 @@ void LCDOut2(void) {
     // At row 3 and col 6
     // Display the bump data in hex
     // Write your code here.
-
+    Nokia5110_SetCursor2(3,6); Nokia5110_OutU8Hex(BumpData);
     // At row 4 col 6
     // Display the number of collisions in decimal with a fixed length of 5.
     // Write your code here.
+    Nokia5110_SetCursor2(4,6); Nokia5110_OutUDec(NumCollisions,5);
 
 }
 
@@ -253,6 +254,8 @@ uint32_t CurrentStep;   // 0, 1, 2..., NUM-1
 void Controller3(void) {
     // Write this as part of Lab 14
     // Controller should increment the timer (ElapsedTime_ms)
+    ElapsedTime_ms++;
+
 
 }
 
@@ -299,7 +302,7 @@ void Program14_3(void) {
 }
 
 int main(void){
-    Program14_1();
-    //Program14_2();
+    //Program14_1();
+    Program14_2();
     //Program14_3();
 }
