@@ -96,10 +96,18 @@ void BumpInt_Init(void(*task)(uint8_t)){
 // bit 0 Bump1
 uint8_t BumpInt_Read(void){
 
-    // 1. Read the sensors (which are active low) and convert to active high
-
+    unsigned int Temp = P4->IN; // Set Temp to the input
+    Temp = ~Temp;  // Invert the given bits
     // 2. Select, shift, combine, and output
-    return 0; // replace this line
+    unsigned int Mask1 = Temp & 0x000000E0; // Change all bits to 0 besides the most left set
+    Mask1 = Mask1 >> 2; // Shift over 2 to account for the two don't cares
+    unsigned int Mask2 = Temp & 0x0000000C; // Change all bits to 0 besides the middle 2
+    Mask2 = Mask2 >> 1; // Shift over 1 to account for the don't care
+    unsigned int Mask3 = Temp & 0x00000001; // Mask the last bit
+    unsigned int Final = 0x00000000 | Mask1; // Or the ladt bit
+    Final = Final | Mask2; // Or the middle two
+    Final = Final | Mask3; // Or the last three
+    return Final; // replace this line
 }
 
 
