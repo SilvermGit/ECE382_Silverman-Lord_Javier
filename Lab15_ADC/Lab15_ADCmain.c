@@ -101,14 +101,14 @@ void LCDOut1(void){
     // Write this as part of Lab 15
 
     // At row 3 display the filtered left ADC data and the left distance
-    Nokia5110_SetCursor2(3, 4); Nokia5110_OutUDec(FilteredLeft, 4);
-    Nokia5110_SetCursor2(3, 10); Nokia5110_OutUDec(DistLeft_mm, 3);
+    Nokia5110_SetCursor2(3, 3); Nokia5110_OutUDec(FilteredLeft, 5); // Use a distance of 5 for the maximum amount of decimals possible
+    Nokia5110_SetCursor2(3, 8); Nokia5110_OutUDec(DistLeft_mm, 5);
     // At row 4 display the filtered center ADC data and the center distance
-    Nokia5110_SetCursor2(4, 4); Nokia5110_OutUDec(FilteredCenter, 4);
-    Nokia5110_SetCursor2(4, 10); Nokia5110_OutUDec(DistCenter_mm, 3);
+    Nokia5110_SetCursor2(4, 3); Nokia5110_OutUDec(FilteredCenter, 5);
+    Nokia5110_SetCursor2(4, 8); Nokia5110_OutUDec(DistCenter_mm, 5);
     // At row 5 display the filtered right ADC data and the right distance
-    Nokia5110_SetCursor2(5, 4); Nokia5110_OutUDec(FilteredRight, 4);
-    Nokia5110_SetCursor2(5, 10); Nokia5110_OutUDec(DistRight_mm, 3);
+    Nokia5110_SetCursor2(5, 3); Nokia5110_OutUDec(FilteredRight, 5);
+    Nokia5110_SetCursor2(5, 8); Nokia5110_OutUDec(DistRight_mm, 5);
 }
 
 
@@ -278,13 +278,16 @@ void LCDOut4(void){
     // Write this as part of Lab 15
 
     // At row 3 display the filtered left ADC data and the left distance
-
+    Nokia5110_SetCursor2(3, 3); Nokia5110_OutUDec(FilteredLeft, 5);
+    Nokia5110_SetCursor2(3, 8); Nokia5110_OutUDec(DistLeft_mm, 5);
     // At row 4 display the filtered center ADC data and the center distance
-
+    Nokia5110_SetCursor2(4, 3); Nokia5110_OutUDec(FilteredCenter, 5);
+    Nokia5110_SetCursor2(4, 8); Nokia5110_OutUDec(DistCenter_mm, 5);
     // At row 5 display the filtered right ADC data and the right distance
-
+    Nokia5110_SetCursor2(5, 3); Nokia5110_OutUDec(FilteredRight, 5);
+    Nokia5110_SetCursor2(5, 8); Nokia5110_OutUDec(DistRight_mm, 5);
     // At row 6 display the classification.
-        
+    Nokia5110_SetCursor2(6, 1); Nokia5110_OutString(StrScenario[Classification]); // Taking the value at the array, and outputting the string
 
 }
 
@@ -351,7 +354,7 @@ int Program15_4(void) { // example program 15.1
 
 
 int main(void){
-	Program15_1();
+	//Program15_1();
 	//Program15_2();
-	//Program15_4();
+	Program15_4();
 }

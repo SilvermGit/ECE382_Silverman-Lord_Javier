@@ -53,10 +53,10 @@ policies, either expressed or implied, of the FreeBSD Project.
 #define MAX_DIST            800         // Max distance in mm.
 
 // Update the following coefficients for Lab 15
-#define ADCMAX_LEFT			0	// Maximum IR ADC value
-#define IRSLOPE_LEFT 		0	// Calibration coefficient, m
-#define IROFFSET_LEFT 		0	// Calibration coefficient, c
-#define DIST_OFFSET_LEFT 	0	// Distance from common spot on robot to IR sensor
+#define ADCMAX_LEFT			1995	// Maximum IR ADC value
+#define IRSLOPE_LEFT 		1109306	// Calibration coefficient, m
+#define IROFFSET_LEFT 		495	// Calibration coefficient, c
+#define DIST_OFFSET_LEFT 	60	// Distance from common spot on robot to IR sensor
 
 // LeftConvert
 // Calculate the distance in mm given the 14-bit ADC value
@@ -68,17 +68,23 @@ policies, either expressed or implied, of the FreeBSD Project.
 // Output: Distance in mm
 uint16_t LeftConvert(uint32_t adc_value){        // returns left distance in mm
     // write this for Lab 15
-    return 0; // replace this line
-
+    int d = 0;
+    if (adc_value < ADCMAX_LEFT) { // If ADC value is less than the left max ADC value, return the maximum distance of 800 mm
+        d = MAX_DIST;
+    }
+    else {
+        d = IRSLOPE_LEFT/(adc_value-IROFFSET_LEFT) + DIST_OFFSET_LEFT; // Else, return the distance through the distance calculation
+    }
+    return d;
 }
 
 
 // Update the following coefficients for Lab 15
 // Ensure ADCMAX must be greater than IROFFSET
-#define ADCMAX_CENTER         0   // Maximum IR ADC value
-#define IRSLOPE_CENTER        0   // Calibration coefficient, m
-#define IROFFSET_CENTER       0   // Calibration coefficient, c
-#define DIST_OFFSET_CENTER    0   // Distance from common spot on robot to IR sensor.
+#define ADCMAX_CENTER         1909   // Maximum IR ADC value
+#define IRSLOPE_CENTER        1116523  // Calibration coefficient, m
+#define IROFFSET_CENTER       589  // Calibration coefficient, c
+#define DIST_OFFSET_CENTER    55   // Distance from common spot on robot to IR sensor.
 
 // CenterConvert
 // Calculate the distance in mm given the 14-bit ADC value
@@ -90,16 +96,23 @@ uint16_t LeftConvert(uint32_t adc_value){        // returns left distance in mm
 // Output: Distance in mm
 uint16_t CenterConvert(uint32_t adc_value){   // returns center distance in mm
     // write this for Lab 15
-    return 0; // replace this line
+    int d = 0;
+    if (adc_value < ADCMAX_CENTER) { // If ADC value is less than the center max ADC value, return the maximum distance of 800 mm
+        d = MAX_DIST;
+    }
+    else {
+        d = IRSLOPE_CENTER/(adc_value-IROFFSET_CENTER) + DIST_OFFSET_CENTER; // Else, return the distance through the distance calculation
+    }
+    return d;
 }
 
 
 // Update the following coefficients for Lab 15
 // Ensure ADCMAX must be greater than IROFFSET
-#define ADCMAX_RIGHT        0     // Maximum IR ADC value
-#define IRSLOPE_RIGHT       0     // Calibration coefficient, m
-#define IROFFSET_RIGHT      0     // Calibration coefficient, c
-#define DIST_OFFSET_RIGHT   0     // Distance from common spot on robot to IR sensor.
+#define ADCMAX_RIGHT        2030     // Maximum IR ADC value
+#define IRSLOPE_RIGHT       1055439     // Calibration coefficient, m
+#define IROFFSET_RIGHT      598     // Calibration coefficient, c
+#define DIST_OFFSET_RIGHT   60    // Distance from common spot on robot to IR sensor.
 
 // RightConvert
 // Calculate the distance in mm given the 14-bit ADC value
@@ -111,5 +124,13 @@ uint16_t CenterConvert(uint32_t adc_value){   // returns center distance in mm
 // Output: Distance in mm
 uint16_t RightConvert(uint32_t adc_value){      // returns right distance in mm
     // write this for Lab 15
-    return 0; // replace this line
+    int d = 0;
+    if (adc_value < ADCMAX_RIGHT) { // If ADC value is less than the center max ADC value, return the maximum distance of 800 mm
+        d = MAX_DIST;
+    }
+    else {
+        d = IRSLOPE_RIGHT/(adc_value-IROFFSET_RIGHT) + DIST_OFFSET_RIGHT; // Else, return the distance through the distance calculation
+    }
+    return d;
 }
+
