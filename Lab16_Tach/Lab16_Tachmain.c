@@ -400,7 +400,7 @@ static char strState[NUM_STATES][LEN_STR_STATE] = {"STOP", "FRWD", "BKWD", "LFTR
 // Control commands for each state
 command_t ControlCommands[NUM_STATES] = {
     {0,   0,   &Motor_Stop,        0},          // Stop indefinitely
-    {200, 20, &Motor_Forward,     FRWD_DIST},  // Move forward until bump sensor triggered
+    {200, 200, &Motor_Forward,     FRWD_DIST},  // Move forward until bump sensor triggered
     {150, 150, &Motor_Backward,    BKWD_DIST},  // Move backward for 90mm
     {150, 150, &Motor_TurnLeft,    0},          // Turn left
     {150, 150, &Motor_TurnRight,   0}           // Turn right
