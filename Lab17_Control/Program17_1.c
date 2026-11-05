@@ -91,8 +91,8 @@ policies, either expressed or implied, of the FreeBSD Project.
 // static uint32_t Kp = 1;  // This corresponds to an actual Kp of 0.001 due to division by GainDivider.
 // static uint32_t Kp = 91; // Here, Kp is effectively 0.091 (91/1000).
 
-static int32_t Kp = 3420 / GAIN_DIVIDER;    // Proportional gain, scaled by GAIN_DIVIDER
-static int32_t Ki = 1500 / GAIN_DIVIDER ;  // Integral gain, scaled by GAIN_DIVIDER
+static int32_t Kp = 370;    // Proportional gain, scaled by GAIN_DIVIDER
+static int32_t Ki = 235;  // Integral gain, scaled by GAIN_DIVIDER
 
 // Target speed for the motors, in revolutions per minute (rpm)
 static uint16_t DesiredSpeed_rpm = 80;    // 80 rpm
@@ -405,8 +405,8 @@ static void Controller(void){
     AccumSpeedErrorR += ErrorR;
 
     // Step 5: Calculate control outputs (duty cycles) using PI control formula.
-    LeftDuty_permil = Kp*ErrorL+Ki*AccumSpeedErrorL;
-    RightDuty_permil = Kp*ErrorR+Ki*AccumSpeedErrorR;
+    LeftDuty_permil = (Kp*ErrorL+Ki*AccumSpeedErrorL) / GAIN_DIVIDER;
+    RightDuty_permil = (Kp*ErrorR+Ki*AccumSpeedErrorR) / GAIN_DIVIDER;
 
     // Step 6: Ensure duty cycles are within predefined bounds, MINMAX.
     LeftDuty_permil = MINMAX(PWMMIN, PWMMAX, LeftDuty_permil);
