@@ -93,7 +93,7 @@ policies, either expressed or implied, of the FreeBSD Project.
 // static int16_t Kp = 0;               // Stable Kp value of 100 (1.0 due to GAIN_DIVIDER)
 
 // solution
-static int16_t Kp = 102; // 82 Good
+static int16_t Kp = 102; // 102 Good
 
 
 // =============== IMPORTANT NOTE =====================================
